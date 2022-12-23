@@ -23,17 +23,28 @@ def start(message):
 def text(message):
     if message.text == 'Погода 🌦':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        markup.row('Dnipro','Kyiv')
-        markup.row('Odessa','Lviv')
+        markup.row('Днепр','Киев','Запорожье','Кривой рог')
+        markup.row('Одесса','Львов','Харьков','Донецк')
+        markup.row('Торонто')
         markup.row('Назад')
         bot.send_message(message.chat.id, text="Обери, погоду якого міста показати".format(message.from_user), reply_markup=markup)
-    elif message.text == 'Dnipro':
+    elif message.text == 'Днепр':
         ent(message)
-    elif message.text == 'Kyiv':
+    elif message.text == 'Киев':
         ent(message)
-    elif message.text == 'Odessa':
+    elif message.text == 'Запорожье':
         ent(message)
-    elif message.text == 'Lviv':
+    elif message.text == 'Кривой рог':
+        ent(message)
+    elif message.text == 'Одесса':
+        ent(message)
+    elif message.text == 'Львов':
+        ent(message)
+    elif message.text == 'Харьков':
+        ent(message)
+    elif message.text == 'Донецк':
+        ent(message)
+    elif message.text == 'Торонто':
         ent(message)
         # response = requests.get(URL + SELECT_CITY.format(message.text, API_KEY))
         # json_dt = json.loads(response.text)
@@ -67,7 +78,13 @@ def ent(message):
     txtw = ''
     weath = json_dt.get('weather')
     if weath[0]['description'] == 'overcast clouds':
-        weath[0]['description'] = 'Хмарно'
+        weath[0]['description'] = 'Хмарно ☁'
+    elif weath[0]['description'] == 'light rain':
+        weath[0]['description'] = 'Легкий дощ ☔'
+    elif weath[0]['description'] == 'clear sky':
+        weath[0]['description'] = 'Ясно 🌤'
+    elif weath[0]['description'] == 'moderate rain':
+        weath[0]['description'] = 'Легкий дощ 🌦'
     print(weath[0]['description'])
     # for weath in json_dt['weather']:
     #     print(weath['description'])
@@ -79,7 +96,7 @@ def ent(message):
     print(country['country'])
     print(float(("{0:.1f}").format(temp['temp']-273.15)))
     print(json_dt['name'])
-    txtw += json_dt['name']+ f'{country["country"]}' + '\n' + f"{weath[0]['description']}" + '\n'  +f"Швидкість вітру {wind['speed']} м/с" + "\n" + f'Температура повітря {float(("{0:.1f}").format(temp["temp"]-273.15))} ºC'
+    txtw += json_dt['name']+ ' ' + f'{country["country"]}' + '\n' + f"{weath[0]['description']}" + '\n'  +f"Швидкість вітру {wind['speed']} м/с 🌬" + "\n" + f'Температура повітря {float(("{0:.1f}").format(temp["temp"]-273.15))} ºC'
     bot.send_message(message.chat.id,txtw)
 
 
