@@ -23,10 +23,10 @@ def start(message):
 def text(message):
     if message.text == 'Погода 🌦':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        markup.row('Днепр','Киев','Запорожье','Кривой рог')
+        markup.row('Днепр ','Киев','Запорожье','Кривой рог')
         markup.row('Одесса','Львов','Харьков','Донецк')
-        markup.row('Торонто')
-        markup.row('Назад')
+        markup.row('Москва')
+        markup.row('Назад ⬅')
         bot.send_message(message.chat.id, text="Обери, погоду якого міста показати".format(message.from_user), reply_markup=markup)
     elif message.text == 'Днепр':
         ent(message)
@@ -44,7 +44,7 @@ def text(message):
         ent(message)
     elif message.text == 'Донецк':
         ent(message)
-    elif message.text == 'Торонто':
+    elif message.text == 'Москва':
         ent(message)
         # response = requests.get(URL + SELECT_CITY.format(message.text, API_KEY))
         # json_dt = json.loads(response.text)
@@ -60,7 +60,7 @@ def text(message):
         # print(json_dt['name'])
         # txtw += json_dt['name']+ f'{country["country"]}' + '\n' + f"{weath['description']} - пасмурно" + '\n' +f"Швидкість вітру {wind['speed']} м/с" + "\n" + f'Температура повітря {float(("{0:.1f}").format(temp["temp"]-273.15))} ºC'
         # bot.send_message(message.chat.id,txtw)
-    elif message.text == 'Назад':
+    elif message.text == 'Назад ⬅':
         start(message)
     elif message.text == 'Курс 💲':
         response = requests.get('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5')
@@ -85,6 +85,8 @@ def ent(message):
         weath[0]['description'] = 'Ясно 🌤'
     elif weath[0]['description'] == 'moderate rain':
         weath[0]['description'] = 'Легкий дощ 🌦'
+    elif weath[0]['description'] == 'scattered clouds':
+        weath[0]['description'] = 'Розсіяні хмари ⛅'
     print(weath[0]['description'])
     # for weath in json_dt['weather']:
     #     print(weath['description'])
@@ -93,10 +95,17 @@ def ent(message):
     wind = json_dt.get('wind')
     temp = json_dt.get('main')
     country = json_dt.get('sys')
+    if country['country'] == 'UA':
+        country['country'] += '🇺🇦'
+    elif country['country'] == 'RU':
+        country['country'] += 'Хуйло'
     print(country['country'])
     print(float(("{0:.1f}").format(temp['temp']-273.15)))
+    print(float(("{0:.1f}").format(temp['feels_like']-273.15)))
+    print(temp['feels_like'])
+    print(temp['humidity'])
     print(json_dt['name'])
-    txtw += json_dt['name']+ ' ' + f'{country["country"]}' + '\n' + f"{weath[0]['description']}" + '\n'  +f"Швидкість вітру {wind['speed']} м/с 🌬" + "\n" + f'Температура повітря {float(("{0:.1f}").format(temp["temp"]-273.15))} ºC'
+    txtw += json_dt['name']+ ' ' + f'{country["country"]}' + '\n' + f"{weath[0]['description']}" + '\n'  +f"Швидкість вітру {wind['speed']} м/с 🌬" + "\n" + f'Температура повітря {float(("{0:.1f}").format(temp["temp"]-273.15))} ºC ' + '\n' + f'Відчувається як {float(("{0:.1f}").format(temp["feels_like"]-273.15))} ºC' + '\n' + f'Вологість повітря {temp["humidity"]}%'
     bot.send_message(message.chat.id,txtw)
 
 
