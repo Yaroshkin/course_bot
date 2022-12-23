@@ -2,7 +2,7 @@
 import telebot
 import requests
 import json
-from bs4 import BeautifulSoup
+
 from telebot import types
 from api import TOKEN, API_KEY
 
@@ -14,7 +14,7 @@ SELECT_CITY = "?q={0}&appid={1}"
 def start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.row('Погода 🌦', 'Курс 💲')
-    bot.send_message(message.chat.id, text="Привіт, {0.first_name}! Обери, що тобі показати /start".format(message.from_user), reply_markup=markup)
+    bot.send_message(message.chat.id, text="Привіт, {0.first_name}! Обери, що тобі показати ".format(message.from_user), reply_markup=markup)
 
 
 @bot.message_handler(content_types=['text'])
@@ -41,21 +41,6 @@ def text(message):
         ent(message)
     elif message.text == 'Донецк':
         ent(message)
-    
-        # response = requests.get(URL + SELECT_CITY.format(message.text, API_KEY))
-        # json_dt = json.loads(response.text)
-        # print(json_dt)
-        # txtw = ''
-        # for weath in json_dt['weather']:
-        #     print(weath['description'])
-        # wind = json_dt.get('wind')
-        # temp = json_dt.get('main')
-        # country = json_dt.get('sys')
-        # print(country['country'])
-        # print(float(("{0:.1f}").format(temp['temp']-273.15)))
-        # print(json_dt['name'])
-        # txtw += json_dt['name']+ f'{country["country"]}' + '\n' + f"{weath['description']} - пасмурно" + '\n' +f"Швидкість вітру {wind['speed']} м/с" + "\n" + f'Температура повітря {float(("{0:.1f}").format(temp["temp"]-273.15))} ºC'
-        # bot.send_message(message.chat.id,txtw)
     elif message.text == 'Назад ⬅':
         start(message)
     elif message.text == 'Курс 💲':
@@ -102,8 +87,22 @@ def ent(message):
     print(temp['feels_like'])
     print(temp['humidity'])
     print(json_dt['name'])
-    txtw += json_dt['name']+ ' ' + f'{country["country"]}' + '\n' + f"{weath[0]['description']}" + '\n'  +f"Швидкість вітру {wind['speed']} м/с 🌬" + "\n" + f'Температура повітря {float(("{0:.1f}").format(temp["temp"]-273.15))} ºC ' + '\n' + f'Відчувається як {float(("{0:.1f}").format(temp["feels_like"]-273.15))} ºC' + '\n' + f'Вологість повітря {temp["humidity"]}%'
+    iconT = ''
+    if temp['temp']-273.15 < 0:
+        iconT = '🥶'
+    elif temp['temp']-273.15 > 0:
+        iconT = '🥵'
+
+    iconV = ''
+    if temp['feels_like']-273.15 <0:
+        iconV = '🥶'
+    else:
+        iconV = "🥵"
+        
+    txtw += json_dt['name']+ ' ' + f'{country["country"]}' + '\n' + f"{weath[0]['description']}" + '\n'  +f"Швидкість вітру {wind['speed']} м/с 🌬" + "\n" + f'Температура повітря {float(("{0:.1f}").format(temp["temp"]-273.15))} ºC '+ iconT + '\n' + f'Відчувається як {float(("{0:.1f}").format(temp["feels_like"]-273.15))} ºC'+ iconV + '\n' + f'Вологість повітря {temp["humidity"]}%'
     bot.send_message(message.chat.id,txtw)
+    
+
 
 
 
