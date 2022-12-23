@@ -5,7 +5,7 @@ import requests
 import json
 from bs4 import BeautifulSoup
 from telebot import *
-from api import TOKEN, API_KEY
+from file.api import TOKEN, API_KEY
 
 bot = telebot.TeleBot(TOKEN)
 URL = 'https://api.openweathermap.org/data/2.5/weather'
