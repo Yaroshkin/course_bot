@@ -25,7 +25,6 @@ def text(message):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         markup.row('Днепр ','Киев','Запорожье','Кривой рог')
         markup.row('Одесса','Львов','Харьков','Донецк')
-        markup.row('Москва')
         markup.row('Назад ⬅')
         bot.send_message(message.chat.id, text="Обери, погоду якого міста показати".format(message.from_user), reply_markup=markup)
     elif message.text == 'Днепр':
@@ -44,8 +43,7 @@ def text(message):
         ent(message)
     elif message.text == 'Донецк':
         ent(message)
-    elif message.text == 'Москва':
-        ent(message)
+    
         # response = requests.get(URL + SELECT_CITY.format(message.text, API_KEY))
         # json_dt = json.loads(response.text)
         # print(json_dt)
@@ -97,8 +95,7 @@ def ent(message):
     country = json_dt.get('sys')
     if country['country'] == 'UA':
         country['country'] += '🇺🇦'
-    elif country['country'] == 'RU':
-        country['country'] += 'Хуйло'
+    
     print(country['country'])
     print(float(("{0:.1f}").format(temp['temp']-273.15)))
     print(float(("{0:.1f}").format(temp['feels_like']-273.15)))
