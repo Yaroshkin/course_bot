@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-import time
-import math
 import telebot
 import requests
 import json
 from bs4 import BeautifulSoup
-from telebot import *
+from telebot import types
 from api import TOKEN, API_KEY
 
 bot = telebot.TeleBot(TOKEN)
@@ -85,6 +83,8 @@ def ent(message):
         weath[0]['description'] = 'Легкий дощ 🌦'
     elif weath[0]['description'] == 'scattered clouds':
         weath[0]['description'] = 'Розсіяні хмари ⛅'
+    elif weath[0]['description'] == 'few clouds':
+        weath[0]['description'] = 'Трохи хмарно ⛅'
     print(weath[0]['description'])
     # for weath in json_dt['weather']:
     #     print(weath['description'])
