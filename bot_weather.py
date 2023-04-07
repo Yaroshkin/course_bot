@@ -59,7 +59,7 @@ def text(message):
 def ent(message):
     response = requests.get(URL + SELECT_CITY.format(message.text, API_KEY))
     json_dt = json.loads(response.text)
-    print(json_dt)
+    # print(json_dt)
     txtw = ''
     weath = json_dt.get('weather')
     if weath[0]['description'] == 'overcast clouds':
@@ -74,7 +74,7 @@ def ent(message):
         weath[0]['description'] = 'Розсіяні хмари ⛅'
     elif weath[0]['description'] == 'few clouds':
         weath[0]['description'] = 'Трохи хмарно ⛅'
-    print(weath[0]['description'])
+    # print(weath[0]['description'])
     # for weath in json_dt['weather']:
     #     print(weath['description'])
     # if weath['description'] == 'overcast clouds':
@@ -85,20 +85,20 @@ def ent(message):
     if country['country'] == 'UA':
         country['country'] += '🇺🇦'
     
-    print(country['country'])
-    print(float(("{0:.1f}").format(temp['temp']-273.15)))
-    print(float(("{0:.1f}").format(temp['feels_like']-273.15)))
+    # print(country['country'])
+    # print(float(("{0:.1f}").format(temp['temp']-273.15)))
+    # print(float(("{0:.1f}").format(temp['feels_like']-273.15)))
     print(temp['feels_like'])
-    print(temp['humidity'])
-    print(json_dt['name'])
+    # print(temp['humidity'])
+    # print(json_dt['name'])
     iconT = ''
-    if temp['temp']-273.15 < 0:
+    if temp['temp']-273.15 < 10:
         iconT = '🥶'
-    elif temp['temp']-273.15 > 0:
+    elif temp['temp']-273.15 > 10:
         iconT = '🥵'
 
     iconV = ''
-    if temp['feels_like']-273.15 <0:
+    if temp['feels_like']-273.15 < 10:
         iconV = '🥶'
     else:
         iconV = "🥵"
