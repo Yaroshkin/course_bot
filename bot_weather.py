@@ -4,7 +4,11 @@ import requests
 import json
 
 from telebot import types
-from api import TOKEN, API_KEY
+
+
+TOKEN = '5042736243:AAFhe9Wv4ETP584UZe_pyaX5JHoH8TptsE0'
+
+API_KEY = '4a1821b13d41533918233d4b7ae76f52'
 
 bot = telebot.TeleBot(TOKEN)
 URL = 'https://api.openweathermap.org/data/2.5/weather'
